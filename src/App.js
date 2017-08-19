@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Form from './components/Form'
+import Gallery from './components/Gallery'
 
 class App extends Component {
   constructor(props){
@@ -38,6 +39,7 @@ class App extends Component {
     return (
       <div className="App">
         <Form makeImg={this.makeImg}/>
+        <Gallery allImages={this.state.images}/>
       </div>
     );
   }
