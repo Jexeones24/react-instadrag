@@ -8,8 +8,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      images: [],
-      newImg: []
+      images: []
     }
   }
 
@@ -32,7 +31,9 @@ class App extends Component {
       })
     })
     .then( resp => resp.json())
-      .then( newImg => this.setState({ newImg }))
+      .then( newImg => this.setState({
+        images: [...this.state.images, newImg]
+      }))
   }
 
   render() {
