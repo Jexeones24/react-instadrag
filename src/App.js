@@ -36,11 +36,28 @@ class App extends Component {
       }))
   }
 
+  deleteImg = (img) => {
+    fetch(`http://localhost:3000/api/v1/pictures/${img.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        url: `${img.url}`,
+        caption: `${img.caption}`,
+      })
+    })
+    .then( resp => resp.json())
+      .then( newImages => this.setState({ images: newImages}) )
+  }
+
+
   render() {
     return (
       <div className="App">
         <Form makeImg={this.makeImg}/>
-        <Gallery allImages={this.state.images}/>
+        <Gallery allImages={this.state.images} deleteImg={this.deleteImg}/>
       </div>
     );
   }
