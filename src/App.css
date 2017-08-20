@@ -9,6 +9,11 @@ body {
   background-attachment:fixed;
 }
 
+.edit-form {
+  z-index:90000!important;
+  position:absolute;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;

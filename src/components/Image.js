@@ -6,7 +6,6 @@ import Draggable from 'react-draggable'; // The default
 
 const Image = (props) => {
   const onDelete = () => props.deleteImg(props)
-  const onEdit = () => props.editImg(props)
 
   return (
     <Draggable>
@@ -14,12 +13,13 @@ const Image = (props) => {
           <div className="image">
             <div className="inner-image">
                 <div className="overlay">
-                  <button onClick={onEdit}><i className="material-icons hover-icon">create</i></button>
+                  <button><i className="material-icons hover-icon">create</i></button>
                   <button onClick={onDelete}> <i className="material-icons hover-icon">delete</i></button>
                 </div>
                 <img src={props.url} alt={props.caption}/>
                 <h3>Caption: {props.caption}</h3>
-              </div>
+                <EditForm id={props.id} caption={props.caption} makeEdit={props.makeEdit}/>
+            </div>
           </div>
       </Grid.Column>
     </Draggable>
