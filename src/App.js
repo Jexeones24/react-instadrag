@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import Form from './components/Form'
+import SubmitForm from './components/SubmitForm'
+import EditForm from './components/EditForm'
 import Gallery from './components/Gallery'
 
 class App extends Component {
@@ -8,7 +9,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      images: []
+      images: [],
+      edited: []
     }
   }
 
@@ -52,12 +54,34 @@ class App extends Component {
       .then( newImages => this.setState({ images: newImages}) )
   }
 
+  // don't remember what this is for?
+  editImg = (image) => {
+    console.log(image)
+    this.setState({ edited: image.url})
+  }
+
+  makeEdit = (newCaption) => {
+
+    let id = this.state.edited.id //undefined
+      fetch(`http://localhost:3000/api/v1/pictures/${id}`, {
+        method: 'PATCH',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          caption: `${newCaption}`,
+        })
+      })
+      .then( resp => resp.json())
+        .then( newImg => {console.log(newImg)})
+  }
 
   render() {
     return (
       <div className="App">
-        <Form makeImg={this.makeImg}/>
-        <Gallery allImages={this.state.images} deleteImg={this.deleteImg}/>
+        <SubmitForm makeImg={this.makeImg}/>
+        <Gallery allImages={this.state.images} deleteImg={this.deleteImg} editImg={this.editImg} makeEdit={this.makeEdit}/>
       </div>
     );
   }

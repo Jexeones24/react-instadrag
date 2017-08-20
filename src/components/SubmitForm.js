@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export default class Form extends Component {
+export default class SubmitForm extends Component {
   constructor(props){
     super(props);
 
@@ -25,8 +25,8 @@ export default class Form extends Component {
     const url = this.state.url
     const caption = this.state.caption
     this.props.makeImg(url, caption)
-    this.refs.url.value = ""
-    this.refs.caption.value = ""
+    this.refs.url.value = "";
+    this.refs.caption.value = "";
   }
 
   render(){
