@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
 import SubmitForm from './components/SubmitForm'
 import EditForm from './components/EditForm'
+import { Grid } from 'semantic-ui-react'
 import Gallery from './components/Gallery'
+import './App.css';
 
 class App extends Component {
   constructor(props){
@@ -54,10 +55,9 @@ class App extends Component {
       .then( newImages => this.setState({ images: newImages}) )
   }
 
-  // don't remember what this is for?
   editImg = (image) => {
     console.log(image)
-    this.setState({ edited: image.url})
+    return <EditForm image={image} makeEdit={this.makeEdit}/>
   }
 
   makeEdit = (newCaption) => {
@@ -80,8 +80,15 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <SubmitForm makeImg={this.makeImg}/>
-        <Gallery allImages={this.state.images} deleteImg={this.deleteImg} editImg={this.editImg} makeEdit={this.makeEdit}/>
+          <Grid celled>
+            <Grid.Row>
+              <SubmitForm makeImg={this.makeImg}/>
+            </Grid.Row>
+          </Grid>
+          <Grid celled>
+            <Gallery editImg={this.editImg} allImages={this.state.images} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
+         </Grid>
+
       </div>
     );
   }
