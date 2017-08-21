@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  width:98%;
+  margin:auto;
 }
 
 html,
@@ -7,31 +9,63 @@ body {
   background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
   background-size:cover;
   background-attachment:fixed;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  color:#fff;
 }
 
 i {
-    color:#000;
+    color:#fff;
+}
+
+label {
+  padding-right:20px;
+}
+
+input {
+  padding:5px 20px;
+  margin-bottom:5px;
+}
+
+button:focus {
+  outline:none;
+}
+
+.edit-form {
+  z-index:90000!important;
+  position:absolute;
+  bottom:-40px;
+  width:100%;
+  left:14px;
+  text-align:left;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+
+.edit-form button {
+  float:right;
+  margin-right:40px;
 }
 
 .hover-icon {
-  margin-left:6px;
+  margin-left:18px;
   margin-right:20px;
+  font-size:3.0em;
 }
 
 .image {
   position:relative;
   padding:10px;
   float:left;
+  width:98%;
 }
 
 .inner-image {
   background:rgba(255, 225, 225, 0.5);
   padding:10px;
+  height:22rem;
+  border:1px solid #fff;
+  position:relative;
 }
 
 .overlay {
@@ -41,20 +75,21 @@ i {
   left:0;
   width:100%;
   top:0;
-  -webkit-transition: background-color 1s ease-out;
- -moz-transition: background-color 1s ease-out;
- -o-transition: background-color 1s ease-out;
- transition: background-color 1s ease-out;
+  -webkit-transition: background-color 0.5s ease-out;
+ -moz-transition: background-color 0.5s ease-out;
+ -o-transition: background-color 0.5s ease-out;
+ transition: background-color 0.5s ease-out;
 }
 
 .overlay:hover {
-  background:#000;
+  background:#fff;
 }
 .overlay:hover i {
-  color:#000;
+  color:#fff;
 }
 .overlay:hover button {
-  background:pink;
+  background:#231557;
+  border:1px solid #FF1361;
 }
 
 .overlay button {
@@ -65,21 +100,21 @@ i {
   margin-left:20px;
   margin-right:20px;
   border-radius:50%;
-  height:50px;
+  height:80px;
   text-align:center;
-  width:50px;
-  -webkit-transition: background-color 1s ease-out;
- -moz-transition: background-color 1s ease-out;
- -o-transition: background-color 1s ease-out;
- transition: background-color 1s ease-out;
+  width:80px;
+  -webkit-transition: background-color 0.5s ease-out;
+ -moz-transition: background-color 0.5s ease-out;
+ -o-transition: background-color 0.5s ease-out;
+ transition: background-color 0.5s ease-out;
 }
 
 .overlay i {
   color:transparent;
-  -webkit-transition: color 1s ease-out;
- -moz-transition: color 1s ease-out;
- -o-transition: color 1s ease-out;
- transition: color 1s ease-out;
+  -webkit-transition: color 0.5s ease-out;
+ -moz-transition: color 0.5s ease-out;
+ -o-transition: color 0.5s ease-out;
+ transition: color 0.5s ease-out;
 }
 
 .celled {
@@ -87,13 +122,43 @@ i {
 }
 
 .celled:first-of-type {
-  width:20%;
+  width:290px;
+  position:fixed;
+  top:10px;
+  height:55rem;
+  background:rgba(255, 225, 225, 0.4);
+  border:1px solid #fff;
+}
+
+.celled:nth-of-type(2) {
+  width:80%;
+  margin-left:300px;
+}
+
+.submit-form {
+  text-align:left;
+  padding-left:10px;
+  padding-right:10px;
+}
+
+.form-btn {
+  background: rgba(255, 225, 225, 0.4);
+  padding: 10px 20px;
+  border:1px solid #fff;
+  cursor:pointer;
+  color:#fff;
+  right:0;
+}
+
+.submit-edit:hover {
+  background:#fff;
+  color:#000;
 }
 
 .gallery .column {
   width:33.3333333%;
   float:left;
-  height:25rem;
+  height:26rem;
 }
 
 .three.column {
@@ -104,23 +169,13 @@ i {
   float:left!important;
 }
 
-.celled:nth-of-type(2) {
-  width:80%;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
 .App-intro {
   font-size: large;
 }
 
 img {
   max-width:100%;
+  max-height:18rem;
 }
 
 @keyframes App-logo-spin {

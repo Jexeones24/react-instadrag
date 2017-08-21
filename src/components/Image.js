@@ -4,27 +4,39 @@ import { Grid } from 'semantic-ui-react'
 import Draggable from 'react-draggable'; // The default
 
 
-const Image = (props) => {
-  const onDelete = () => props.deleteImg(props)
-  const onEdit = () => props.editImg(props)
+export default class Image extends Component {
+  constructor(props){
+    super(props);
 
-  
-  return (
-    <Draggable>
-      <Grid.Column>
-          <div className="image">
-            <div className="inner-image">
-                <div className="overlay">
-                  <button onClick={onEdit}><i className="material-icons hover-icon">create</i></button>
-                  <button onClick={onDelete}> <i className="material-icons hover-icon">delete</i></button>
-                </div>
-                <img src={props.url} alt={props.caption}/>
-                <h3>Caption: {props.caption}</h3>
+    this.state ={
+      formVisible: false
+    }
+  }
+
+  onDelete = () => this.props.deleteImg(this.props)
+  showForm = () => this.setState({formVisible: !this.state.formVisible})
+
+  render() {
+    return (
+      <Draggable>
+        <Grid.Column>
+            <div className="image">
+              <div className="inner-image">
+                  <div className="overlay">
+                    <button onClick={this.showForm}><i className="material-icons hover-icon">create</i></button>
+                    <button onClick={this.onDelete}> <i className="material-icons hover-icon">delete</i></button>
+                  </div>
+                  <img src={this.props.url} alt={this.props.caption}/>
+                  <h3>Caption: {this.props.caption}</h3>
+                  {
+                    this.state.formVisible
+                    ? <EditForm id={this.props.id} caption={this.props.caption} makeEdit={this.props.makeEdit}/>
+                    : null
+                  }
               </div>
-          </div>
-      </Grid.Column>
-    </Draggable>
-  )
+            </div>
+        </Grid.Column>
+      </Draggable>
+      )
+    }
 }
-
-export default Image

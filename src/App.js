@@ -57,9 +57,9 @@ class App extends Component {
       .then( newImages => this.setState({ images: newImages}) )
   }
 
-  makeEdit = (newCaption) => {
-    let id = this.state.edited.id //undefined
-      fetch(`http://localhost:3000/api/v1/pictures/${id}`, {
+
+  makeEdit = (newCaption, objId) => {
+      fetch(`http://localhost:3000/api/v1/pictures/${objId}`, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/json',
@@ -70,8 +70,17 @@ class App extends Component {
         })
       })
       .then( resp => resp.json())
-        .then( newImg => {console.log(newImg)})
-  }
+        .then( newImg => {
+          let index = this.state.images.findIndex(image=> image.id === objId)
+          this.setState({
+            images: [
+             ...this.state.images.slice(0,index),
+             Object.assign({}, this.state.images[index], newImg),
+             ...this.state.images.slice(index+1)
+           ]
+         });
+        })
+      }
 
   addFilterOption = (caption) => {
     this.setState({ options: [...this.state.options, caption]})
@@ -92,7 +101,7 @@ class App extends Component {
             </Grid.Row>
           </Grid>
           <Grid celled>
-            <Gallery editImg={this.editImg} allImages={this.state.images} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
+            <Gallery allImages={this.state.images} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
          </Grid>
       </div>
     );
