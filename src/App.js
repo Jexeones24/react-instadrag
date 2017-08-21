@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SubmitForm from './components/SubmitForm'
+import Filter from './components/Filter'
 import EditForm from './components/EditForm'
 import { Grid } from 'semantic-ui-react'
 import Gallery from './components/Gallery'
@@ -11,7 +12,8 @@ class App extends Component {
 
     this.state = {
       images: [],
-      edited: []
+      options: [],
+      filter: ""
     }
   }
 
@@ -55,13 +57,7 @@ class App extends Component {
       .then( newImages => this.setState({ images: newImages}) )
   }
 
-  editImg = (image) => {
-    console.log(image)
-    return <EditForm image={image} makeEdit={this.makeEdit}/>
-  }
-
   makeEdit = (newCaption) => {
-
     let id = this.state.edited.id //undefined
       fetch(`http://localhost:3000/api/v1/pictures/${id}`, {
         method: 'PATCH',
@@ -77,18 +73,27 @@ class App extends Component {
         .then( newImg => {console.log(newImg)})
   }
 
+  addFilterOption = (caption) => {
+    this.setState({ options: [...this.state.options, caption]})
+  } // do we want these options to persist/be deleted once there are no pictures with that caption anymore?
+
+  changeFilter = (option) => {
+    let filteredPics = this.state.images.filter((image) => image.caption === option)
+    this.setState({ images: filteredPics })
+  }
+
   render() {
     return (
       <div className="App">
           <Grid celled>
             <Grid.Row>
-              <SubmitForm makeImg={this.makeImg}/>
+              <SubmitForm makeImg={this.makeImg} addFilterOption={this.addFilterOption}/>
+              <Filter options={this.state.options} changeFilter={this.changeFilter}/>
             </Grid.Row>
           </Grid>
           <Grid celled>
             <Gallery editImg={this.editImg} allImages={this.state.images} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
          </Grid>
-
       </div>
     );
   }

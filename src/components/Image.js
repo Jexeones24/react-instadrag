@@ -8,6 +8,7 @@ const Image = (props) => {
   const onDelete = () => props.deleteImg(props)
   const onEdit = () => props.editImg(props)
 
+  
   return (
     <Draggable>
       <Grid.Column>

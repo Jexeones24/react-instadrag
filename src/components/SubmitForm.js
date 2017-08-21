@@ -18,6 +18,7 @@ export default class SubmitForm extends Component {
   setCaption = (e) => {
     let caption = e.target.value
     this.setState({ caption })
+
   }
 
   handleSubmit = (e) => {
@@ -25,16 +26,19 @@ export default class SubmitForm extends Component {
     const url = this.state.url
     const caption = this.state.caption
     this.props.makeImg(url, caption)
+    this.props.addFilterOption(caption)
     this.refs.url.value = "";
     this.refs.caption.value = "";
   }
 
+  // clicking on submit makes blank caption with edit/delete buttons
+  // need validations to check for valid input
   render(){
     return(
       <div className="form">
         <form className="url-caption" onSubmit={this.handleSubmit}>
-        URL: <input type="text" ref="url" value={this.state.url} onChange={this.setUrl}/>
-        CAPTION: <input type="text" ref="caption" value={this.state.caption} onChange={this.setCaption}/>
+        URL: <input type="text" ref="url" onChange={this.setUrl}/>
+        CAPTION: <input type="text" ref="caption" onChange={this.setCaption}/>
         <button type="submit">Submit</button>
         </form>
       </div>
