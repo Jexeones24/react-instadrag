@@ -12,33 +12,41 @@ class App extends Component {
 
     this.state = {
       images: [],
-      options: []
+      filter: "",
+      selectedValue: ""
     }
     this.filterImg = this.filterImg.bind(this)
   }
 
-  filterImg(selectValue, inputValue) {
-    if (selectValue === "Category") {
-      let selectFilterCategory = this.state.images.filter((image) => {
-       return image.category.includes(inputValue)
+  handleChange = (e) => {
+    e.preventDefault()
+    let filter = e.target.value
+    this.setState({filter})
+  }
+
+  selectValueHandleChange = (e) => {
+    e.preventDefault()
+    let selectedValue = e.target.value
+    console.log(selectedValue)
+    this.setState({selectedValue})
+  }
+
+  filterImg() {
+    if (this.state.selectedValue === "Category") {
+      return this.state.images.filter((image) => {
+       return image.category.toLowerCase().includes(this.state.filter.toLowerCase())
       })
-      this.setState({
-        images: selectFilterCategory
+    } else if (this.state.selectedValue === "Caption") {
+      return this.state.images.filter((image) => {
+       return image.caption.toLowerCase().includes(this.state.filter.toLowerCase())
       })
-    } else if (selectValue === "Caption") {
-      let selectFilterCaption = this.state.images.filter((image) => {
-       return image.caption.includes(inputValue)
-      })
-      this.setState({
-        images: selectFilterCaption
+    } else if (this.state.selectedValue === "Both") {
+      debugger
+       return this.state.images.filter((image) => {
+        return  image.caption.toLowerCase().includes(this.state.filter.toLowerCase()) ||  image.category.toLowerCase().includes(this.state.filter.toLowerCase())
       })
     } else {
-      let selectFilterBoth = this.state.images.filter((image) => {
-         return image.caption.includes(inputValue) ||  image.category.includes(inputValue)
-      })
-      this.setState({
-        images: selectFilterBoth
-      })
+      return this.state.images
     }
   }
 
@@ -117,12 +125,12 @@ class App extends Component {
           <Grid celled>
             <Grid.Row>
               <SubmitForm makeImg={this.makeImg}/>
-              <Filter filterImg={this.filterImg}/>
+              <Filter handleChange={this.handleChange} selectValueHandleChange={this.selectValueHandleChange}/>
             </Grid.Row>
           </Grid>
           <Grid celled>
             <Gallery
-              allImages={this.state.images} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
+              allImages={this.filterImg()} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
          </Grid>
       </div>
     );

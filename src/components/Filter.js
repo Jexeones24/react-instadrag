@@ -6,27 +6,18 @@ export default class Filter extends Component {
 
   }
 
-  selectChange = () => {
-
-  }
-
-  submitForm = (e) => {
-    e.preventDefault()
-    let selectValue = e.target.childNodes[0].value
-    let inputValue = e.target.childNodes[1].value
-    this.props.filterImg(selectValue, inputValue)
-  }
 
   render(){
     return(
       <div>
-        <form onSubmit={this.submitForm}>
-          <select onChange={this.selectChange}>
+        <form>
+          <select onChange={this.props.selectValueHandleChange}>
+            <option disabled selected>Choose a Filter </option>
             <option>Both</option>
             <option>Category</option>
             <option>Caption</option>
           </select>
-          <input type="text"/>
+          <input type="text" onChange={this.props.handleChange}/>
           <button type="submit">Submit</button>
         </form>
       </div>
