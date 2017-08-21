@@ -12,15 +12,26 @@ class App extends Component {
 
     this.state = {
       images: [],
-      options: [],
-      filter: ""
+      options: []
     }
   }
 
+  // can you do this???
   componentDidMount(){
+    this.fetchPics()
+    this.fetchFilters()
+  }
+
+  fetchPics = () => {
     fetch("http://localhost:3000/api/v1/pictures")
       .then( resp => resp.json())
-        .then( images => this.setState({ images }))
+      .then( images => this.setState({ images }))
+  }
+
+  fetchFilters = () => {
+    fetch("http://localhost:3000/api/v1/categories")
+      .then( resp => resp.json())
+        .then( options => this.setState({ options }))
   }
 
   makeImg = (url, caption) => {
@@ -73,10 +84,25 @@ class App extends Component {
         .then( newImg => {console.log(newImg)})
   }
 
-  addFilterOption = (caption) => {
-    this.setState({ options: [...this.state.options, caption]})
-  } // do we want these options to persist/be deleted once there are no pictures with that caption anymore?
+  addFilterOption = (name) => {
+    fetch('http://localhost:3000/api/v1/categories', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: `${name}`
+      })
+    })
+    .then( resp => resp.json())
+      .then( newFilter => this.setState({
+        options: [...this.state.options, newFilter]
+      }))
+  }
 
+  // filters once and replaces all images with filtered items, then
+  // next search, all items are gone
   changeFilter = (option) => {
     let filteredPics = this.state.images.filter((image) => image.caption === option)
     this.setState({ images: filteredPics })
@@ -88,7 +114,8 @@ class App extends Component {
           <Grid celled>
             <Grid.Row>
               <SubmitForm makeImg={this.makeImg} addFilterOption={this.addFilterOption}/>
-              <Filter options={this.state.options} changeFilter={this.changeFilter}/>
+              <Filter changeFilter={this.changeFilter} options={this.state.options}
+              />
             </Grid.Row>
           </Grid>
           <Grid celled>

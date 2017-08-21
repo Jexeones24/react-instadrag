@@ -31,8 +31,6 @@ export default class SubmitForm extends Component {
     this.refs.caption.value = "";
   }
 
-  // clicking on submit makes blank caption with edit/delete buttons
-  // need validations to check for valid input
   render(){
     return(
       <div className="form">
