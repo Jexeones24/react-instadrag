@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 
 export default class Filter extends Component {
-  debugger
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
 
     this.state = {
       option: ""
@@ -16,11 +15,15 @@ export default class Filter extends Component {
     this.props.changeFilter(option)
   }
 
+  // only filters on first click
+  // no duplicate filters added to db
+  // check against bad inputs
   render(){
     return(
       <div className="filter">
         <select onChange={this.handleChange}>
-          {this.props.options.map((option, i) => <option key={i} value={option}>{option}</option>)}
+          <option value="All">All</option>
+          {this.props.options.map((option, i) => <option key={i} value={option.name}>{option.name}</option>)}
         </select>
       </div>
     )

@@ -32,8 +32,6 @@ export default class SubmitForm extends Component {
     })
   }
 
-  // clicking on submit makes blank caption with edit/delete buttons
-  // need validations to check for valid input
   render(){
     return(
       <div className="form submit-form">
