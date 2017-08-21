@@ -5,6 +5,9 @@ import EditForm from './components/EditForm'
 import { Grid } from 'semantic-ui-react'
 import Gallery from './components/Gallery'
 import './App.css';
+import Login from './components/Login'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import SessionsAdapter from './adapters/SessionsAdapter'
 
 class App extends Component {
   constructor(props){
@@ -13,7 +16,8 @@ class App extends Component {
     this.state = {
       images: [],
       filter: "",
-      selectedValue: ""
+      selectedValue: "",
+      loggedIn: false
     }
     this.filterImg = this.filterImg.bind(this)
   }
@@ -41,7 +45,7 @@ class App extends Component {
        return image.caption.toLowerCase().includes(this.state.filter.toLowerCase())
       })
     } else if (this.state.selectedValue === "Both") {
-      debugger
+        debugger
        return this.state.images.filter((image) => {
         return  image.caption.toLowerCase().includes(this.state.filter.toLowerCase()) ||  image.category.toLowerCase().includes(this.state.filter.toLowerCase())
       })
@@ -119,19 +123,39 @@ class App extends Component {
         })
       }
 
+//       .then( user => console.log(user) )
+
+  renderLogin = () =>{
+    return(
+      <Router>
+        <Route exact path="/login" render={Login} />
+      </Router>
+    )
+  }
+
+  renderMainBody = () => {
+    return (
+      <div>
+        <Grid celled>
+          <Grid.Row>
+            <SubmitForm makeImg={this.makeImg}/>
+            <Filter handleChange={this.handleChange} selectValueHandleChange={this.selectValueHandleChange}/>
+          </Grid.Row>
+        </Grid>
+        <Grid celled>
+          <Gallery
+            allImages={this.filterImg()} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
+        </Grid>
+      </div>
+    )
+  }
+
+
   render() {
     return (
-      <div className="App">
-          <Grid celled>
-            <Grid.Row>
-              <SubmitForm makeImg={this.makeImg}/>
-              <Filter handleChange={this.handleChange} selectValueHandleChange={this.selectValueHandleChange}/>
-            </Grid.Row>
-          </Grid>
-          <Grid celled>
-            <Gallery
-              allImages={this.filterImg()} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
-         </Grid>
+
+        <div className="App">
+          { !this.state.loggedIn ? this.renderLogin() : this.renderMainBody() }
       </div>
     );
   }
