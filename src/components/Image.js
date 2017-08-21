@@ -28,9 +28,10 @@ export default class Image extends Component {
                   </div>
                   <img src={this.props.url} alt={this.props.caption}/>
                   <h3>Caption: {this.props.caption}</h3>
+                  <h3> Category: {this.props.category} </h3>
                   {
                     this.state.formVisible
-                    ? <EditForm id={this.props.id} caption={this.props.caption} makeEdit={this.props.makeEdit}/>
+                    ? <EditForm id={this.props.id} caption={this.props.caption} category={this.props.category} makeEdit={this.props.makeEdit}/>
                     : null
                   }
               </div>

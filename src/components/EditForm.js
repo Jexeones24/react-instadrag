@@ -5,30 +5,39 @@ export default class EditForm extends Component {
     super(props);
 
     this.state ={
-      caption: this.props.caption
+      caption: this.props.caption,
+      category: this.props.category
     }
   }
 
-  handleChange = (e) => {
-    let newValue = e.target.value
-    console.log(newValue)
+  handleChangeCategory = (e) => {
+    let categoryValue = e.target.value
     this.setState({
-      caption: newValue
+      category: categoryValue
+    })
+  }
+
+  handleChangeCaption = (e) => {
+    let captionValue = e.target.value
+    this.setState({
+      caption: captionValue
     })
   }
 
   onSubmit = (e) => {
     e.preventDefault()
+    let newCategory = this.state.category
     let newCaption = this.state.caption
     let objectId = this.props.id
-    this.props.makeEdit(newCaption, objectId)
+    this.props.makeEdit(newCaption, objectId, newCategory)
   }
 
   render(){
     return(
       <div className="edit-form">
         <form action="" onSubmit={this.onSubmit}>
-          <input type="text" ref="caption" value={this.state.caption} onChange={this.handleChange}/>
+          <input type="text" ref="caption" value={this.state.caption} onChange={this.handleChangeCaption}/>
+          <input type="text" ref="category" value={this.state.category} onChange={this.handleChangeCategory}/>
           <button className="form-btn submit-edit">Submit</button>
         </form>
       </div>

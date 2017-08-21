@@ -14,27 +14,42 @@ class App extends Component {
       images: [],
       options: []
     }
+    this.filterImg = this.filterImg.bind(this)
+  }
+
+  filterImg(selectValue, inputValue) {
+    if (selectValue === "Category") {
+      let selectFilterCategory = this.state.images.filter((image) => {
+       return image.category.includes(inputValue)
+      })
+      this.setState({
+        images: selectFilterCategory
+      })
+    } else if (selectValue === "Caption") {
+      let selectFilterCaption = this.state.images.filter((image) => {
+       return image.caption.includes(inputValue)
+      })
+      this.setState({
+        images: selectFilterCaption
+      })
+    } else {
+      let selectFilterBoth = this.state.images.filter((image) => {
+         return image.caption.includes(inputValue) ||  image.category.includes(inputValue)
+      })
+      this.setState({
+        images: selectFilterBoth
+      })
+    }
   }
 
   // can you do this???
   componentDidMount(){
-    this.fetchPics()
-    this.fetchFilters()
-  }
-
-  fetchPics = () => {
     fetch("http://localhost:3000/api/v1/pictures")
       .then( resp => resp.json())
       .then( images => this.setState({ images }))
   }
 
-  fetchFilters = () => {
-    fetch("http://localhost:3000/api/v1/categories")
-      .then( resp => resp.json())
-        .then( options => this.setState({ options }))
-  }
-
-  makeImg = (url, caption) => {
+  makeImg = (url, caption, category) => {
     fetch('http://localhost:3000/api/v1/pictures', {
       method: 'POST',
       headers: {
@@ -44,6 +59,7 @@ class App extends Component {
       body: JSON.stringify({
         url: `${url}`,
         caption: `${caption}`,
+        category: `${category}`
       })
     })
     .then( resp => resp.json())
@@ -62,6 +78,7 @@ class App extends Component {
       body: JSON.stringify({
         url: `${img.url}`,
         caption: `${img.caption}`,
+        category: `${img.category}`
       })
     })
     .then( resp => resp.json())
@@ -69,7 +86,7 @@ class App extends Component {
   }
 
 
-  makeEdit = (newCaption, objId) => {
+  makeEdit = (newCaption, objId, category) => {
       fetch(`http://localhost:3000/api/v1/pictures/${objId}`, {
         method: 'PATCH',
         headers: {
@@ -78,6 +95,7 @@ class App extends Component {
         },
         body: JSON.stringify({
           caption: `${newCaption}`,
+          category: `${category}`
         })
       })
       .then( resp => resp.json())
@@ -93,42 +111,18 @@ class App extends Component {
         })
       }
 
-  addFilterOption = (name) => {
-    fetch('http://localhost:3000/api/v1/categories', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: `${name}`
-      })
-    })
-    .then( resp => resp.json())
-      .then( newFilter => this.setState({
-        options: [...this.state.options, newFilter]
-      }))
-  }
-
-  // filters once and replaces all images with filtered items, then
-  // next search, all items are gone
-  changeFilter = (option) => {
-    let filteredPics = this.state.images.filter((image) => image.caption === option)
-    this.setState({ images: filteredPics })
-  }
-
   render() {
     return (
       <div className="App">
           <Grid celled>
             <Grid.Row>
-              <SubmitForm makeImg={this.makeImg} addFilterOption={this.addFilterOption}/>
-              <Filter changeFilter={this.changeFilter} options={this.state.options}
-              />
+              <SubmitForm makeImg={this.makeImg}/>
+              <Filter filterImg={this.filterImg}/>
             </Grid.Row>
           </Grid>
           <Grid celled>
-            <Gallery allImages={this.state.images} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
+            <Gallery
+              allImages={this.state.images} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
          </Grid>
       </div>
     );

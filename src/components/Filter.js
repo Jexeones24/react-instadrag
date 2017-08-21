@@ -4,27 +4,31 @@ export default class Filter extends Component {
   constructor(props){
     super(props);
 
-    this.state = {
-      option: ""
-    }
   }
 
-  handleChange = (event) => {
-    let option = event.target.value
-    this.setState({ option: option})
-    this.props.changeFilter(option)
+  selectChange = () => {
+
   }
 
-  // only filters on first click
-  // no duplicate filters added to db
-  // check against bad inputs
+  submitForm = (e) => {
+    e.preventDefault()
+    let selectValue = e.target.childNodes[0].value
+    let inputValue = e.target.childNodes[1].value
+    this.props.filterImg(selectValue, inputValue)
+  }
+
   render(){
     return(
-      <div className="filter">
-        <select onChange={this.handleChange}>
-          <option value="All">All</option>
-          {this.props.options.map((option, i) => <option key={i} value={option.name}>{option.name}</option>)}
-        </select>
+      <div>
+        <form onSubmit={this.submitForm}>
+          <select onChange={this.selectChange}>
+            <option>Both</option>
+            <option>Category</option>
+            <option>Caption</option>
+          </select>
+          <input type="text"/>
+          <button type="submit">Submit</button>
+        </form>
       </div>
     )
   }

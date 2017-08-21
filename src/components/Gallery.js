@@ -12,7 +12,8 @@ export default class Gallery extends Component {
     return(
       <Grid.Row columns={3}>
         <div className="gallery">
-            {this.props.allImages.map((img, i) => <Image id={img.id} key={i} url={img.url} makeEdit={this.props.makeEdit} caption={img.caption} deleteImg={this.props.deleteImg} />)}
+            {this.props.allImages.map((img, i) => <Image id={img.id} key={i} url={img.url} makeEdit={this.props.makeEdit} caption={img.caption}
+            category={img.category} deleteImg={this.props.deleteImg} />)}
         </div>
     </Grid.Row>
     )
