@@ -25,18 +25,28 @@ export default class SubmitForm extends Component {
     const url = this.state.url
     const caption = this.state.caption
     this.props.makeImg(url, caption)
-    this.refs.url.value = "";
-    this.refs.caption.value = "";
+    this.setState({
+      url: "",
+      caption: ""
+    })
   }
 
   render(){
     return(
-      <div className="form">
+      <div className="form submit-form">
         <form className="url-caption" onSubmit={this.handleSubmit}>
-        URL: <input type="text" ref="url" value={this.state.url} onChange={this.setUrl}/>
-        CAPTION: <input type="text" ref="caption" value={this.state.caption} onChange={this.setCaption}/>
-        <button type="submit">Submit</button>
+        <div className="add-img-form-sec">
+          <h5> Add an Image </h5>
+          <label>URL:</label>
+          <input type="url" ref="url" value={this.state.url} onChange={this.setUrl} required/>
+        </div>
+        <div className="add-img-form-sec">
+          <label>CAPTION: </label>
+          <input type="text" ref="caption" value={this.state.caption} onChange={this.setCaption} required/>
+        </div>
+        <button className="form-btn" type="submit">Submit</button>
         </form>
+        <hr/>
       </div>
     )
   }

@@ -55,10 +55,8 @@ class App extends Component {
       .then( newImages => this.setState({ images: newImages}) )
   }
 
-  makeEdit = (newCaption, id) => {
-    console.log(newCaption, id)
-
-    let objId = id
+  makeEdit = (newCaption, objId) => {
+    console.log(newCaption, objId)
       fetch(`http://localhost:3000/api/v1/pictures/${objId}`, {
         method: 'PATCH',
         headers: {
@@ -71,7 +69,7 @@ class App extends Component {
       })
       .then( resp => resp.json())
         .then( newImg => {
-          let index = this.state.images.findIndex(image=> image.id === id);
+          let index = this.state.images.findIndex(image=> image.id === objId)
           this.setState({
             images: [
              ...this.state.images.slice(0,index),
@@ -80,7 +78,7 @@ class App extends Component {
            ]
          });
         })
-  }
+      }
 
   render() {
     return (

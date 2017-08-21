@@ -7,7 +7,6 @@ export default class EditForm extends Component {
     this.state ={
       caption: this.props.caption
     }
-
   }
 
   handleChange = (e) => {
@@ -29,8 +28,8 @@ export default class EditForm extends Component {
     return(
       <div className="edit-form">
         <form action="" onSubmit={this.onSubmit}>
-          Edit Caption: <input type="text" ref="caption" value={this.state.caption} onChange={this.handleChange}/>
-          <button>Submit</button>
+          <input type="text" ref="caption" value={this.state.caption} onChange={this.handleChange}/>
+          <button className="form-btn submit-edit">Submit</button>
         </form>
       </div>
     )
