@@ -65,58 +65,21 @@ class App extends Component {
   }
 
   makeImg = (url, caption, category) => {
-    // debugger
-    console.log(this.state)
-    fetch('http://localhost:3000/api/v1/pictures', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Authorization': localStorage.getItem('token')
-      },
-      body: JSON.stringify({
-        url: `${url}`,
-        caption: `${caption}`,
-        category: `${category}`
-      })
-    })
-    .then( resp => resp.json())
+    debugger
+    PicturesAdapter.makeImg(url, caption, category)
       .then( newImg => this.setState({
         images: [...this.state.images, newImg]
       }))
   }
 
   deleteImg = (img) => {
-    fetch(`http://localhost:3000/api/v1/pictures/${img.id}`, {
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url: `${img.url}`,
-        caption: `${img.caption}`,
-        category: `${img.category}`
-      })
-    })
-    .then( resp => resp.json())
+      PicturesAdapter.deleteImg(img)
       .then( newImages => this.setState({ images: newImages}) )
   }
 
 
   makeEdit = (newCaption, objId, category) => {
-      fetch(`http://localhost:3000/api/v1/pictures/${objId}`, {
-        method: 'PATCH',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          caption: `${newCaption}`,
-          category: `${category}`
-        })
-      })
-      .then( resp => resp.json())
+      PicturesAdapter.makeEdit(newCaption, objId, category)
         .then( newImg => {
           let index = this.state.images.findIndex(image=> image.id === objId)
           this.setState({
@@ -178,7 +141,6 @@ class App extends Component {
 
 
   render() {
-    debugger
     return (
         <div className="App">
           { !localStorage.getItem('token')? this.loginRoute() : this.renderMainBody() }
