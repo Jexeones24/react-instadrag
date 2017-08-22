@@ -54,7 +54,6 @@ class App extends Component {
     }
   }
 
-  // can you do this???
   componentDidMount(){
     fetch("http://localhost:3000/api/v1/pictures")
       .then( resp => resp.json())
@@ -123,7 +122,7 @@ class App extends Component {
         })
       }
 
-//       .then( user => console.log(user) )
+
 
   renderLogin = () =>{
     return(
@@ -136,16 +135,16 @@ class App extends Component {
   renderMainBody = () => {
     return (
       <div>
-        <Grid celled>
-          <Grid.Row>
+        <div className="ui celled grid">
+          <div className="row">
             <SubmitForm makeImg={this.makeImg}/>
             <Filter handleChange={this.handleChange} selectValueHandleChange={this.selectValueHandleChange}/>
-          </Grid.Row>
-        </Grid>
-        <Grid celled>
+          </div>
+        </div>
+        <div className="ui celled grid">
           <Gallery
             allImages={this.filterImg()} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
-        </Grid>
+        </div>
       </div>
     )
   }
@@ -155,7 +154,7 @@ class App extends Component {
     return (
 
         <div className="App">
-          { !this.state.loggedIn ? this.renderLogin() : this.renderMainBody() }
+          { this.state.loggedIn ? this.renderLogin() : this.renderMainBody() }
       </div>
     );
   }

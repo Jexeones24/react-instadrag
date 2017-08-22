@@ -56,9 +56,8 @@ export default class SubmitForm extends Component {
           <label>CATEGORY: </label>
           <input type="text" ref="category" value={this.state.category} onChange={this.setCategory} required/>
         </div>
-        <button className="form-btn" type="submit">Submit</button>
+        <button className="form-btn submit-edit" type="submit">Submit</button>
         </form>
-        <hr/>
       </div>
     )
   }

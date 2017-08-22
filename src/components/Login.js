@@ -1,18 +1,18 @@
 import React from 'react'
 
 const Login = (props) =>
-  <div>
+  <div className="login-container z-depth-4">
     <h1>Login</h1>
     <form>
       <div>
-        <input type="text" name="username" placeholder="Username" />
-        <label htmlFor="username">Username</label>
+        <label className="left">Username</label>
+        <input type="text" name="username" />
       </div>
       <div>
-        <input type="password" name="password" placeholder="Password" />
-        <label htmlFor="password">Password</label>
+        <label className="left">Password</label>
+        <input type="password" name="password" />
       </div>
-      <input type="submit" value="Login" />
+      <button type="submit" value="Login" className="form-btn submit-edit"> Login</button>
     </form>
   </div>;
 

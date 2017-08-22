@@ -10,6 +10,7 @@ export default class Image extends Component {
 
     this.state ={
       formVisible: false
+
     }
   }
 
