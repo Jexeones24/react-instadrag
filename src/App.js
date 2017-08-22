@@ -61,6 +61,7 @@ class App extends Component {
   }
 
   makeImg = (url, caption, category) => {
+    debugger
     fetch('http://localhost:3000/api/v1/pictures', {
       method: 'POST',
       headers: {
@@ -127,10 +128,11 @@ class App extends Component {
 
   // put password/username in state
   getUser = (e) => {
+    debugger
     e.preventDefault()
 
-    let password = e.target.childNodes[2].value
-    let username = e.target.childNodes[0].value
+    let username = e.target.childNodes[1].value
+    let password = e.target.childNodes[3].value
     fetch(`http://localhost:3000/api/v1/sessions`, {
       method: 'POST',
       headers: {
