@@ -1,19 +1,20 @@
-
+const path = 'http://localhost:3000/api/v1/sessions'
 export default class SessionsAdapter {
 
-  static getUser(user){
-    console.log("in SessionsAdapter");
-    return fetch(`http://localhost:3000/api/v1/users/${user.id}`, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: `${user.username}`,
-        password: `${user.password}`,
-      })
+  static getUser(formData){
+    return fetch('http://localhost:3000/api/v1/sessions', {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify(formData)
     })
-      .then( resp => resp.json())
+    .then( resp => resp.json())
+  }
+}
+
+let headers = () => {
+  return {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem('token')
   }
 }

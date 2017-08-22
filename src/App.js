@@ -18,7 +18,7 @@ class App extends Component {
       filter: "",
       selectedValue: "",
       loggedIn: false,
-      loggedInUser: null
+      currentUser: {}
     }
   }
 
@@ -55,24 +55,27 @@ class App extends Component {
   }
 
   componentDidMount(){
-    fetch("http://localhost:3000/api/v1/pictures")
+    fetch("http://localhost:3000/api/v1/pictures", {
+    })
       .then( resp => resp.json())
       .then( images => this.setState({ images }))
   }
 
   makeImg = (url, caption, category) => {
     debugger
+    console.log(this.state)
     fetch('http://localhost:3000/api/v1/pictures', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('token')
       },
       body: JSON.stringify({
         url: `${url}`,
         caption: `${caption}`,
         category: `${category}`,
-        user_id: this.state.loggedInUser.id
+        user_id: this.state.currentUser.id
       })
     })
     .then( resp => resp.json())
@@ -124,31 +127,17 @@ class App extends Component {
         })
       }
 
-//       .then( user => console.log(user) )
-
   // put password/username in state
-  getUser = (e) => {
-    debugger
-    e.preventDefault()
-
-    let username = e.target.childNodes[1].value
-    let password = e.target.childNodes[3].value
-    fetch(`http://localhost:3000/api/v1/sessions`, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        'username': username,
-        'password': password
-      })
-    })
-    .then( resp => resp.json())
+  getUser = (formData) => {
+    SessionsAdapter.getUser(formData)
       .then( data => {
-        this.setState({ loggedIn: true, loggedInUser: data })
+        this.setState({ loggedIn: true, currentUser: data })
           localStorage.setItem('token', data.jwt)
       })
+  }
+
+  checkLocalStorage = () => {
+    localStorage.getItem('token') ? this.setState({ loggedIn:true}) : this.setState({ loggedIn: false })
   }
 
   renderLogin = () => {
@@ -158,6 +147,7 @@ class App extends Component {
   }
 
   loginRoute = () =>{
+    this.checkLocalStorage()
     return(
       <div>
         <Router>
@@ -187,7 +177,6 @@ class App extends Component {
 
   render() {
     return (
-
         <div className="App">
           { !this.state.loggedIn ? this.loginRoute() : this.renderMainBody() }
       </div>
