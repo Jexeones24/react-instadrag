@@ -17,7 +17,8 @@ class App extends Component {
       images: [],
       filter: "",
       selectedValue: "",
-      loggedIn: false
+      loggedIn: false,
+      loggedInUser: null
     }
     this.filterImg = this.filterImg.bind(this)
   }
@@ -54,7 +55,6 @@ class App extends Component {
     }
   }
 
-  // can you do this???
   componentDidMount(){
     fetch("http://localhost:3000/api/v1/pictures")
       .then( resp => resp.json())
@@ -71,7 +71,8 @@ class App extends Component {
       body: JSON.stringify({
         url: `${url}`,
         caption: `${caption}`,
-        category: `${category}`
+        category: `${category}`,
+        user_id: this.state.loggedInUser.id
       })
     })
     .then( resp => resp.json())
@@ -125,11 +126,43 @@ class App extends Component {
 
 //       .then( user => console.log(user) )
 
-  renderLogin = () =>{
+  // put password/username in state
+  getUser = (e) => {
+    e.preventDefault()
+
+    let password = e.target.childNodes[2].value
+    let username = e.target.childNodes[0].value
+    fetch(`http://localhost:3000/api/v1/sessions`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'username': username,
+        'password': password
+      })
+    })
+    .then( resp => resp.json())
+      .then( data => {
+        this.setState({ loggedIn: true, loggedInUser: data })
+          localStorage.setItem('token', data.jwt)
+      })
+  }
+
+  renderLogin = () => {
     return(
-      <Router>
-        <Route exact path="/login" render={Login} />
-      </Router>
+      <Login getUser={this.getUser}/>
+    )
+  }
+
+  loginRoute = () =>{
+    return(
+      <div>
+        <Router>
+          <Route exact path="/login" render={this.renderLogin}/>
+        </Router>
+      </div>
     )
   }
 
@@ -155,7 +188,7 @@ class App extends Component {
     return (
 
         <div className="App">
-          { !this.state.loggedIn ? this.renderLogin() : this.renderMainBody() }
+          { !this.state.loggedIn ? this.loginRoute() : this.renderMainBody() }
       </div>
     );
   }
