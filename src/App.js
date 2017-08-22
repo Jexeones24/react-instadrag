@@ -19,7 +19,6 @@ class App extends Component {
       selectedValue: "",
       loggedIn: false
     }
-    this.filterImg = this.filterImg.bind(this)
   }
 
   handleChange = (e) => {
@@ -35,7 +34,7 @@ class App extends Component {
     this.setState({selectedValue})
   }
 
-  filterImg() {
+  filterImg = () => {
     if (this.state.selectedValue === "Category") {
       return this.state.images.filter((image) => {
        return image.category.toLowerCase().includes(this.state.filter.toLowerCase())
@@ -121,8 +120,6 @@ class App extends Component {
          });
         })
       }
-
-
 
   renderLogin = () =>{
     return(
