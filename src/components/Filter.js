@@ -11,6 +11,7 @@ export default class Filter extends Component {
     return(
       <div>
         <form>
+          <h5 className="left pl-10"> Filter </h5>
           <select onChange={this.props.selectValueHandleChange}>
             <option disabled selected>Choose a Filter </option>
             <option>Both</option>
@@ -18,7 +19,7 @@ export default class Filter extends Component {
             <option>Caption</option>
           </select>
           <input type="text" onChange={this.props.handleChange}/>
-          <button type="submit">Submit</button>
+          <button className="form-btn submit-edit" type="submit">Submit</button>
         </form>
       </div>
     )

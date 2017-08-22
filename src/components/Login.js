@@ -1,14 +1,14 @@
 import React from 'react'
 
 const Login = (props) =>
-  <div>
+  <div className="login-container z-depth-4">
     <h1>Login</h1>
-    <form onSubmit={props.getUser}>
-        <input type="text" name="username" placeholder="Username" />
-        <label htmlFor="username">Username</label>
-        <input type="password" name="password" placeholder="Password" />
-        <label htmlFor="password">Password</label>
-      <input type="submit" value="Login" />
+    <form>
+        <label className="left">Username</label>
+        <input type="text" name="username" />
+        <label className="left">Password</label>
+        <input type="password" name="password" />
+        <button type="submit" value="Login" className="form-btn submit-edit"> Login</button>
     </form>
   </div>;
 

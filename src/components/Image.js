@@ -14,6 +14,8 @@ export default class Image extends Component {
   }
 
   onDelete = () => this.props.deleteImg(this.props)
+
+  // we want this to slide down
   showForm = () => this.setState({formVisible: !this.state.formVisible})
 
   render() {

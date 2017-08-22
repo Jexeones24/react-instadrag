@@ -20,7 +20,6 @@ class App extends Component {
       loggedIn: false,
       loggedInUser: null
     }
-    this.filterImg = this.filterImg.bind(this)
   }
 
   handleChange = (e) => {
@@ -36,7 +35,7 @@ class App extends Component {
     this.setState({selectedValue})
   }
 
-  filterImg() {
+  filterImg = () => {
     if (this.state.selectedValue === "Category") {
       return this.state.images.filter((image) => {
        return image.category.toLowerCase().includes(this.state.filter.toLowerCase())
@@ -169,16 +168,16 @@ class App extends Component {
   renderMainBody = () => {
     return (
       <div>
-        <Grid celled>
-          <Grid.Row>
+        <div className="ui celled grid">
+          <div className="row">
             <SubmitForm makeImg={this.makeImg}/>
             <Filter handleChange={this.handleChange} selectValueHandleChange={this.selectValueHandleChange}/>
-          </Grid.Row>
-        </Grid>
-        <Grid celled>
+          </div>
+        </div>
+        <div className="ui celled grid">
           <Gallery
             allImages={this.filterImg()} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
-        </Grid>
+        </div>
       </div>
     )
   }
