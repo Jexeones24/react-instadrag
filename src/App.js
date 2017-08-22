@@ -65,7 +65,6 @@ class App extends Component {
   }
 
   makeImg = (url, caption, category) => {
-    debugger
     PicturesAdapter.makeImg(url, caption, category)
       .then( newImg => this.setState({
         images: [...this.state.images, newImg]
