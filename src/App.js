@@ -8,6 +8,7 @@ import './App.css';
 import Login from './components/Login'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SessionsAdapter from './adapters/SessionsAdapter'
+import PicturesAdapter from './adapters/PicturesAdapter'
 
 class App extends Component {
   constructor(props){
@@ -55,14 +56,16 @@ class App extends Component {
   }
 
   componentDidMount(){
-    fetch("http://localhost:3000/api/v1/pictures", {
-    })
-      .then( resp => resp.json())
+    // debugger
+    PicturesAdapter.getPictures()
       .then( images => this.setState({ images }))
+
+    SessionsAdapter.currentUser()
+      .then(currentUser => this.setState({currentUser}))
   }
 
   makeImg = (url, caption, category) => {
-    debugger
+    // debugger
     console.log(this.state)
     fetch('http://localhost:3000/api/v1/pictures', {
       method: 'POST',
@@ -74,8 +77,7 @@ class App extends Component {
       body: JSON.stringify({
         url: `${url}`,
         caption: `${caption}`,
-        category: `${category}`,
-        user_id: this.state.currentUser.id
+        category: `${category}`
       })
     })
     .then( resp => resp.json())
@@ -147,7 +149,7 @@ class App extends Component {
   }
 
   loginRoute = () =>{
-    this.checkLocalStorage()
+    // this.checkLocalStorage()
     return(
       <div>
         <Router>
@@ -176,9 +178,10 @@ class App extends Component {
 
 
   render() {
+    debugger
     return (
         <div className="App">
-          { !this.state.loggedIn ? this.loginRoute() : this.renderMainBody() }
+          { !localStorage.getItem('token')? this.loginRoute() : this.renderMainBody() }
       </div>
     );
   }
