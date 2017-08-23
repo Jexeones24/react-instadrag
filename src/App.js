@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import SubmitForm from './components/SubmitForm'
-import Filter from './components/Filter'
 import EditForm from './components/EditForm'
 import { Grid } from 'semantic-ui-react'
-import Gallery from './components/Gallery'
 import './App.css';
 import Login from './components/Login'
+import Home from './components/Home'
+import NavBar from './components/NavBar'
+import SignUp from './components/SignUp'
+import Main from './components/Main'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SessionsAdapter from './adapters/SessionsAdapter'
 import PicturesAdapter from './adapters/PicturesAdapter'
+
 
 class App extends Component {
   constructor(props){
@@ -61,7 +63,7 @@ class App extends Component {
       .then( images => this.setState({ images }))
 
     SessionsAdapter.currentUser()
-      .then(currentUser => this.setState({currentUser}))
+      .then(currentUser => this.setState({currentUser, loggedIn: true}))
   }
 
   makeImg = (img) => {
@@ -104,53 +106,47 @@ class App extends Component {
       localStorage.token = ""
   }
 
-  renderLogin = () => {
+  renderLogin = (params) => {
     return(
-      <Login getUser={this.getUser}/>
+      <Login getUser={this.getUser} history={params.history} loggedIn={this.state.loggedIn} />
     )
   }
 
-  loginRoute = () =>{
-    // this.checkLocalStorage()
+  renderSignup = () => {
     return(
-      <div>
-        <Router>
-          <Route exact path="/login" render={this.renderLogin}/>
-        </Router>
-      </div>
+      <SignUp createUser={this.createUser}/>
     )
   }
 
-  renderMainBody = () => {
+
+  renderHome = (params) => {
     return (
-      <div>
-        <div className="ui celled grid">
-          <div className="row">
-            <SubmitForm makeImg={this.makeImg}/>
-            <Filter handleChange={this.handleChange} selectValueHandleChange={this.selectValueHandleChange}/>
-          </div>
-        </div>
-        <div className="ui celled grid">
-          <Gallery
-            allImages={this.filterImg()} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
-        </div>
-        <div className="grid">
-          <button className="form-btn submit-edit" onClick={this.logOut}>
-            Logout
-          </button>
-        </div>
-      </div>
+      <Home history={params.history} loggedIn={this.state.loggedIn}/>
     )
   }
 
+  renderMainBody = (params) => {
+    return (
+     <Main deleteImg={this.deleteImg} makeEdit={this.makeEdit} logOut={this.logOut} selectValueHandleChange={this.selectValueHandleChange} handleChange={this.handleChange} filterImg={this.filterImg} makeImg={this.makeImg} loggedIn={this.state.loggedIn} history={params.history} />
+    )
+  }
 
   render() {
+    // debugger
     return (
         <div className="App">
-          { !localStorage.getItem('token')? this.loginRoute() : this.renderMainBody() }
-      </div>
+          <Router>
+          <div>
+              <NavBar />
+              <Route exact path="/" render={this.renderHome} />
+              <Route exact path="/main" render={this.renderMainBody}/>
+              <Route exact path="/login" render={this.renderLogin} />
+              <Route exact path="/signup" render={this.renderSignUp} />
+          </div>
+        </Router>
+        </div>
     );
   }
-}
+  }
 
 export default App;
