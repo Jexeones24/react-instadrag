@@ -6,6 +6,7 @@ import Login from './components/Login'
 import Home from './components/Home'
 import NavBar from './components/NavBar'
 import SignUp from './components/SignUp'
+import UsersAdapter from './adapters/UsersAdapter'
 import Main from './components/Main'
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import SessionsAdapter from './adapters/SessionsAdapter'
@@ -66,6 +67,14 @@ class App extends Component {
       .then(currentUser => this.setState({currentUser, loggedIn: true}))
   }
 
+  createUser = (user) => {
+    UsersAdapter.createUser(user)
+      .then( user => this.setState({
+        currentUser: user,
+        loggedIn: true
+      }))
+  }
+
   makeImg = (img) => {
     PicturesAdapter.makeImg(img)
       .then( newImg => this.setState({
@@ -112,9 +121,9 @@ class App extends Component {
     )
   }
 
-  renderSignup = () => {
+  renderSignUp = (params) => {
     return(
-      <SignUp createUser={this.createUser}/>
+      <SignUp history={params.history} createUser={this.createUser} loggedIn={this.state.loggedIn}/>
     )
   }
 

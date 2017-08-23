@@ -11,6 +11,12 @@ class SignUp extends React.Component{
     }
   }
 
+  componentWillReceiveProps(props) {
+     if (props.loggedIn) {
+       props.history.push('main')
+     }
+  }
+
   getFormInput = (e) => {
     const value = e.target.value
     const property = e.target.name

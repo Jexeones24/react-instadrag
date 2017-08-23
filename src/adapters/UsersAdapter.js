@@ -3,14 +3,11 @@ const path = 'http://localhost:3000/api/v1/users'
 export default class UsersAdapter {
 
   static createUser(user) {
+    // debugger
     return fetch(path, {
-      method: 'POST',
+      method: 'post',
       headers: headers(),
-      body: JSON.stringify({
-        username: `${user.username}`,
-        email: `${user.email}`,
-        password: `${user.password}`
-      })
+      body: JSON.stringify({user:user})
     })
     .then( resp => resp.json())
   }
