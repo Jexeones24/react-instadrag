@@ -12,7 +12,7 @@ export default class Home extends React.Component {
 
   componentWillReceiveProps(props) {
     debugger
-      {props.loggedIn ? props.history.push('main') : props.history.push('login')}
+    {props.loggedIn ? props.history.push('main') : props.history.push('login')}
   }
 
   render() {

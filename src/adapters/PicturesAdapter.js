@@ -1,27 +1,26 @@
 const path = 'http://localhost:3000/api/v1/pictures'
 
 export default class PicturesAdapter {
-
-  static getPictures() {
-
+  static getPictures(currentUser) {
     return fetch(path, {
       headers: headers()
     })
       .then( resp => resp.json())
+      .then( images => {return images.filter((i) => i.user_id === currentUser.id)})
     }
 
-    static makeImg(img) {
-      return fetch(path, {
-        method: 'POST',
-        headers: headers(),
-        body: JSON.stringify({
-          url: `${img.url}`,
-          caption: `${img.caption}`,
-          category: `${img.category}`
-        })
+  static makeImg(img) {
+    return fetch(path, {
+      method: 'POST',
+      headers: headers(),
+      body: JSON.stringify({
+        url: `${img.url}`,
+        caption: `${img.caption}`,
+        category: `${img.category}`
       })
-      .then( resp => resp.json())
-    }
+    })
+    .then( resp => resp.json())
+  }
 
 
     static deleteImg(img) {
