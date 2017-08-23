@@ -10,14 +10,14 @@ export default class PicturesAdapter {
       .then( resp => resp.json())
     }
 
-    static makeImg(url, caption, category) {
+    static makeImg(img) {
       return fetch(path, {
         method: 'POST',
         headers: headers(),
         body: JSON.stringify({
-          url: `${url}`,
-          caption: `${caption}`,
-          category: `${category}`
+          url: `${img.url}`,
+          caption: `${img.caption}`,
+          category: `${img.category}`
         })
       })
       .then( resp => resp.json())
@@ -37,16 +37,16 @@ export default class PicturesAdapter {
       .then( resp => resp.json())
     }
 
-    static makeEdit(newCaption, objId, category) {
-      return fetch(`http://localhost:3000/api/v1/pictures/${objId}`, {
+    static makeEdit(img) {
+      return fetch(`http://localhost:3000/api/v1/pictures/${img.imageid}`, {
         method: 'PATCH',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          caption: `${newCaption}`,
-          category: `${category}`
+          caption: `${img.caption}`,
+          category: `${img.category}`
         })
       })
       .then( resp => resp.json())

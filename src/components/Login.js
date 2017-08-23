@@ -10,15 +10,15 @@ class Login extends React.Component{
     }
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault()
-    this.props.getUser(this.state)
-  }
-
   getFormInput = (e) => {
     const value = e.target.value
     const property = e.target.name
     this.setState({ [property]:value })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault()
+    this.props.getUser(this.state)
   }
 
   render(){

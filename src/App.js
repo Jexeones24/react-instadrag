@@ -64,8 +64,8 @@ class App extends Component {
       .then(currentUser => this.setState({currentUser}))
   }
 
-  makeImg = (url, caption, category) => {
-    PicturesAdapter.makeImg(url, caption, category)
+  makeImg = (img) => {
+    PicturesAdapter.makeImg(img)
       .then( newImg => this.setState({
         images: [...this.state.images, newImg]
       }))
@@ -76,11 +76,11 @@ class App extends Component {
       .then( newImages => this.setState({ images: newImages}) )
   }
 
-
-  makeEdit = (newCaption, objId, category) => {
-      PicturesAdapter.makeEdit(newCaption, objId, category)
+  makeEdit = (img) => {
+    debugger
+      PicturesAdapter.makeEdit(img)
         .then( newImg => {
-          let index = this.state.images.findIndex(image=> image.id === objId)
+          let index = this.state.images.findIndex(image=> image.id === img.imageid)
           this.setState({
             images: [
              ...this.state.images.slice(0,index),
@@ -91,7 +91,6 @@ class App extends Component {
         })
       }
 
-  // put password/username in state
   getUser = (formData) => {
     SessionsAdapter.getUser(formData)
       .then( data => {
@@ -100,8 +99,9 @@ class App extends Component {
       })
   }
 
-  checkLocalStorage = () => {
-    localStorage.getItem('token') ? this.setState({ loggedIn:true}) : this.setState({ loggedIn: false })
+  logOut = () => {
+      this.setState({loggedIn: false, currentUser: {}})
+      localStorage.token = ""
   }
 
   renderLogin = () => {
@@ -133,6 +133,11 @@ class App extends Component {
         <div className="ui celled grid">
           <Gallery
             allImages={this.filterImg()} deleteImg={this.deleteImg} makeEdit={this.makeEdit}/>
+        </div>
+        <div className="grid">
+          <button className="form-btn submit-edit" onClick={this.logOut}>
+            Logout
+          </button>
         </div>
       </div>
     )

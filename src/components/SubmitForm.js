@@ -11,32 +11,15 @@ export default class SubmitForm extends Component {
     }
   }
 
-  setUrl = (e) => {
-    let url = e.target.value
-    this.setState({ url })
-  }
-
-  setCaption = (e) => {
-    let caption = e.target.value
-    this.setState({ caption })
-  }
-
-  setCategory = (e) => {
-    let category = e.target.value
-    this.setState({ category })
+  setValues = (e) => {
+    const value = e.target.value
+    const property = e.target.name
+    this.setState({ [property]:value })
   }
 
   handleSubmit = (e) => {
     e.preventDefault()
-    const url = this.state.url
-    const caption = this.state.caption
-    const category = this.state.category
-    this.props.makeImg(url, caption, category)
-    this.setState({
-      url: "",
-      caption: "",
-      category: ""
-    })
+    this.props.makeImg(this.state)
   }
 
   render(){
@@ -46,15 +29,15 @@ export default class SubmitForm extends Component {
         <div className="add-img-form-sec">
           <h5> Add an Image </h5>
           <label>URL:</label>
-          <input type="url" ref="url" value={this.state.url} onChange={this.setUrl} required/>
+          <input type="url" name="url" ref="url" value={this.state.url} onChange={this.setValues} required/>
         </div>
         <div className="add-img-form-sec">
           <label>CAPTION: </label>
-          <input type="text" ref="caption" value={this.state.caption} onChange={this.setCaption} required/>
+          <input type="text" name="caption" ref="caption" value={this.state.caption} onChange={this.setValues} required/>
         </div>
         <div className="add-img-form-sec">
           <label>CATEGORY: </label>
-          <input type="text" ref="category" value={this.state.category} onChange={this.setCategory} required/>
+          <input type="text" name="category" ref="category" value={this.state.category} onChange={this.setValues} required/>
         </div>
         <button className="form-btn submit-edit" type="submit">Submit</button>
         </form>
