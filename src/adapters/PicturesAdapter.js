@@ -6,7 +6,10 @@ export default class PicturesAdapter {
       headers: headers()
     })
       .then( resp => resp.json())
-      .then( images => {return images.filter((i) => i.user_id === currentUser.id)})
+      .then( images => {
+         console.log(currentUser)
+        return images.filter((i) => i.user_id === currentUser.id)
+      })
     }
 
   static makeImg(img) {
@@ -57,6 +60,6 @@ let headers = () => {
   return {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem('token')
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
   }
 }

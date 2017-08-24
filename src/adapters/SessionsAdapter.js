@@ -11,18 +11,24 @@ export default class SessionsAdapter {
   }
 
   static currentUser(){
+    console.log("Gimme those tokens", headers())
     return fetch(`${path}/current_user`, {
       method: 'GET',
       headers: headers()
     })
-      .then(res=> res.json())
+      .then(res=> {
+        console.log(headers())
+        console.log(localStorage.getItem('token'))
+        return res.json()
+      })
   }
 }
 
 let headers = () => {
+  const token = localStorage.getItem('token')
   return {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem('token')
+    'Authorization': `Bearer ${token}`
   }
 }

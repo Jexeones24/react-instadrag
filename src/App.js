@@ -37,14 +37,18 @@ class App extends Component {
   getUser = (formData) => {
     SessionsAdapter.getUser(formData)
       .then( data => {
+        localStorage.setItem('token', data.jwt)
         this.setState({ loggedIn: true, currentUser: data })
-          localStorage.setItem('token', data.jwt)
+
+
       })
   }
 
+
+
   renderLogin = (params) => {
     return(
-      <Login getUser={this.getUser} history={params.history} loggedIn={this.state.loggedIn}  />
+      <Login getUser={this.getUser} history={params.history} loggedIn={this.state.loggedIn} />
     )
   }
 
@@ -55,6 +59,8 @@ class App extends Component {
   }
 
 
+
+
   renderHome = (params) => {
     return (
       <Home history={params.history} loggedIn={this.state.loggedIn}/>
@@ -63,9 +69,11 @@ class App extends Component {
 
   renderMainBody = (params) => {
     return (
+      <div>
      <Main deleteImg={this.deleteImg} makeEdit={this.makeEdit} logOut={this.logOut} selectValueHandleChange={this.selectValueHandleChange} handleChange={this.handleChange} filterImg={this.filterImg} makeImg={this.makeImg} loggedIn={this.state.loggedIn} history={params.history}
      getUser={this.getUser} currentUser={this.state.currentUser}
-    />
+   />
+ </div>
     )
   }
 

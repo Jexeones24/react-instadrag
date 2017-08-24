@@ -23,13 +23,20 @@ export default class Main extends React.Component {
       {props.loggedIn ? props.history.push('main') : props.history.push('login')}
     }
 
-
     componentDidMount(){
+      console.log("Mounting Main")
         SessionsAdapter.currentUser()
-          .then(currentUser => this.setState({currentUser, loggedIn: true}))
+          .then(currentUser => {
+            console.log("Current User",currentUser)
+            this.setState({currentUser, loggedIn: true})
+          })
           .then( () => {
+            console.log("Getting Pictures", this.state.currentUser)
             PicturesAdapter.getPictures(this.state.currentUser)
-              .then( images => {this.setState({ images: images })})
+              .then( images => {
+                console.log(images)
+                this.setState({ images: images })
+              })
           })
 
     }
